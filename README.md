@@ -2,6 +2,8 @@
 
 A static analysis tool that parses PHP source code and generates visual call graphs using Graphviz. Written in Go.
 
+![](./screenshots/2026-02-12_17-59.png)
+
 ## Features
 
 - **Static PHP parsing** — uses [VKCOM/php-parser](https://github.com/VKCOM/php-parser) to build a full AST (PHP 5.x–8.1)
@@ -25,23 +27,55 @@ Or build from source:
 ```bash
 git clone https://github.com/hightemp/php-call-graph-viz.git
 cd php-call-graph-viz
-go build -o php-call-graph-viz ./cmd
+make build
+```
+
+## Makefile Commands
+
+The project includes a Makefile for common tasks:
+
+```bash
+make build        # Build the binary
+make install      # Install to $GOPATH/bin
+make clean        # Remove binary and clean cache
+make test         # Run tests
+make run          # Build and run with config.yaml
+make run-test     # Build and run with test/config.yaml
+make fmt          # Format code
+make vet          # Run go vet
+make lint         # Run golangci-lint
+make deps         # Download dependencies
+make deps-update  # Update dependencies
+make help         # Show all available targets
 ```
 
 ## Quick Start
 
-1. Copy the sample configuration and adjust it for your project:
+1. Build the project:
+
+```bash
+make build
+```
+
+2. Copy the sample configuration and adjust it for your project:
 
 ```bash
 cp config.yaml my-config.yaml
 ```
 
-2. Edit `source_dirs` to point to your PHP source directories.
+3. Edit `source_dirs` in `my-config.yaml` to point to your PHP source directories.
 
-3. Run the tool:
+4. Run the tool:
 
 ```bash
 ./php-call-graph-viz -config my-config.yaml
+```
+
+Or use the Makefile:
+
+```bash
+make run          # Uses config.yaml
+make run-test     # Uses test/config.yaml
 ```
 
 The output file (default: `callgraph.svg`) will be generated in the current directory.
