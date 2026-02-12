@@ -1,0 +1,96 @@
+# PHP Call Graph Visualizer Configuration
+# =========================================
+
+# Directories containing PHP source files to analyze.
+source_dirs:
+  - ./src
+  # - ./app
+  # - ./lib
+
+# PHP version for the parser. Supported: 5.x, 7.x, 8.0, 8.1.
+php_version: "8.1"
+
+# Output format: "svg", "png", "dot", "jpg".
+output_format: svg
+
+# Output file path.
+output_file: callgraph.svg
+
+# Grouping mode for graph clusters:
+#   "class"     — group methods by class (cluster per class)
+#   "namespace" — group methods by namespace (cluster per namespace)
+#   "none"      — flat graph without clusters
+group_by: class
+
+# Graph detail level:
+#   "method" — each node is a Class::method
+#   "class"  — each node is a class (all method calls collapsed)
+granularity: method
+
+# Graphviz layout engine: "dot", "circo", "fdp", "neato", "sfdp", "twopi".
+# "dot" is best for hierarchical call graphs.
+layout: dot
+
+# Graph direction: "TB" (top-bottom), "LR" (left-right), "BT", "RL".
+rank_dir: LR
+
+# Maximum call chain depth from entry points (0 = unlimited).
+max_depth: 0
+
+# Entry points: only show calls reachable from these FQN methods.
+# If empty, the entire call graph is shown.
+# Format: "Namespace\\ClassName::methodName"
+entry_points: []
+  # - "App\\Controllers\\UserController::index"
+  # - "App\\Console\\Commands\\ImportCommand::handle"
+
+# Number of parallel file-parsing goroutines.
+workers: 8
+
+# Enable heuristic type resolution for $var->method() calls.
+# Tracks: $var = new X(), parameter type hints, property type hints.
+resolve_types: true
+
+# Show unresolved calls as dashed/dotted edges.
+# If false, unresolved calls are hidden.
+show_unresolved: false
+
+# Show standalone function calls (non-method calls).
+show_functions: false
+
+# Namespace/class/method filters.
+filters:
+  # Only include classes in these namespaces (prefix match).
+  # Empty = include all.
+  include_namespaces: []
+    # - "App\\Services"
+    # - "App\\Repositories"
+
+  # Exclude classes in these namespaces (prefix match).
+  exclude_namespaces: []
+    # - "App\\Tests"
+    # - "App\\Migrations"
+
+  # Only include these specific classes (FQN or short name).
+  include_classes: []
+    # - "App\\Services\\UserService"
+
+  # Exclude these specific classes.
+  exclude_classes: []
+    # - "App\\Services\\LogService"
+
+  # Exclude methods with these names from the graph.
+  exclude_methods:
+    - __construct
+    - __destruct
+    - __toString
+    # - getters/setters:
+    # - getId
+    # - setId
+
+# Manual variable → FQN type overrides.
+# Useful when automatic type resolution cannot determine the type.
+# Keys: "$varName" for local vars, "ClassName::$propName" for properties.
+type_mappings: {}
+  # "$container": "App\\Container\\AppContainer"
+  # "App\\Services\\BaseService::$em": "Doctrine\\ORM\\EntityManager"

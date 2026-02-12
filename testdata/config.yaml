@@ -1,0 +1,27 @@
+# Test configuration for testdata
+source_dirs:
+  - ./testdata/src
+
+php_version: "8.1"
+output_format: svg
+output_file: testdata/callgraph.svg
+group_by: class
+granularity: method
+layout: dot
+rank_dir: LR
+max_depth: 0
+workers: 4
+resolve_types: true
+show_unresolved: false
+show_functions: false
+
+filters:
+  include_namespaces: []
+  exclude_namespaces: []
+  include_classes: []
+  exclude_classes: []
+  exclude_methods:
+    - __construct
+    - __destruct
+
+type_mappings: {}
