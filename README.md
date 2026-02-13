@@ -1,5 +1,8 @@
 # PHP Call Graph Visualizer
 
+![Experimental](https://img.shields.io/badge/status-experimental-orange)
+![Vibe Coded](https://img.shields.io/badge/vibe-coded-blueviolet)
+
 A static analysis tool that parses PHP source code and generates visual call graphs using Graphviz. Written in Go.
 
 ![](./screenshots/2026-02-12_17-59.png)
@@ -212,3 +215,5 @@ internal/
 ## License
 
 MIT
+
+![](https://asdertasd.site/counter/php-call-graph-viz)
