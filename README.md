@@ -21,12 +21,33 @@ A static analysis tool that parses PHP source code and generates visual call gra
 
 ## Installation
 
+### Quick Install (Recommended)
+
+**Linux / macOS:**
+```bash
+curl -sSL https://raw.githubusercontent.com/hightemp/php-call-graph-viz/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/hightemp/php-call-graph-viz/main/install.ps1 | iex
+```
+
+### Alternative Methods
+
+**Using Go:**
 ```bash
 go install github.com/hightemp/php-call-graph-viz/cmd@latest
 ```
 
-Or build from source:
+**Download pre-built binaries:**
 
+Visit the [releases page](https://github.com/hightemp/php-call-graph-viz/releases/latest) to download binaries for:
+- Linux (x86_64, arm64)
+- macOS (x86_64, arm64)
+- Windows (x86_64)
+
+**Build from source:**
 ```bash
 git clone https://github.com/hightemp/php-call-graph-viz.git
 cd php-call-graph-viz

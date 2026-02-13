@@ -1,0 +1,121 @@
+# GoReleaser configuration for php-call-graph-viz
+# https://goreleaser.com
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod download
+
+builds:
+  - id: php-call-graph-viz
+    main: ./cmd
+    binary: php-call-graph-viz
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    # Ignore arm64 for Windows
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.Version={{.Version}}
+      - -X main.BuildTime={{.Date}}
+      - -X main.Commit={{.Commit}}
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+      - config.yaml
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: 'Features'
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: 'Performance Improvements'
+      regexp: "^.*perf[(\\w)]*:+.*$"
+      order: 2
+    - title: 'Others'
+      order: 999
+
+release:
+  github:
+    owner: hightemp
+    name: php-call-graph-viz
+  draft: false
+  prerelease: auto
+  name_template: "{{.ProjectName}} v{{.Version}}"
+  header: |
+    ## PHP Call Graph Visualizer v{{ .Version }}
+    
+    ### Installation
+    
+    **Linux/macOS:**
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/hightemp/php-call-graph-viz/main/install.sh | bash
+    ```
+    
+    **Windows (PowerShell):**
+    ```powershell
+    irm https://raw.githubusercontent.com/hightemp/php-call-graph-viz/main/install.ps1 | iex
+    ```
+    
+    ### Changes
+
+# Homebrew tap (optional, for future)
+# brews:
+#   - tap:
+#       owner: hightemp
+#       name: homebrew-tap
+#     folder: Formula
+#     homepage: https://github.com/hightemp/php-call-graph-viz
+#     description: "Static analysis tool that generates visual PHP call graphs"
+#     license: MIT
+
+# Scoop bucket (optional, for Windows)
+# scoop:
+#   bucket:
+#     owner: hightemp
+#     name: scoop-bucket
+#   homepage: https://github.com/hightemp/php-call-graph-viz
+#   description: "Static analysis tool that generates visual PHP call graphs"
+#   license: MIT
