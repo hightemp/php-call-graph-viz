@@ -2,6 +2,7 @@
 
 ![Experimental](https://img.shields.io/badge/status-experimental-orange)
 ![Vibe Coded](https://img.shields.io/badge/vibe-coded-blueviolet)
+![](https://goreportcard.com/badge/github.com/hightemp/php-call-graph-viz)
 
 A static analysis tool that parses PHP source code and generates visual call graphs using Graphviz. Written in Go.
 
